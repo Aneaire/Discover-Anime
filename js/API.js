@@ -36,6 +36,7 @@ async function fetchAndDisplayAnime() {
 
       const title = document.createElement("h3");
       title.textContent = anime.title;
+      title.classList.add("line-clamp-2");
       card.appendChild(title);
 
       const episodes = document.createElement("h5");
@@ -115,6 +116,28 @@ async function fetchAndDisplaySearchResults(query) {
       card.appendChild(episodes);
 
       animeContainerElement.appendChild(card);
+
+      card.addEventListener("click", () => {
+        const modal = document.createElement("div");
+        modal.classList.add("modal");
+
+        const iframe = document.createElement("iframe");
+        iframe.src = anime.trailer.embed_url;
+        iframe.frameBorder = "0";
+        iframe.allowFullscreen = true;
+        modal.appendChild(iframe);
+
+        document.body.appendChild(modal);
+
+        modal.addEventListener("click", () => {
+          document.body.removeChild(modal);
+        });
+
+        modal.addEventListener("contextmenu", (event) => {
+          event.preventDefault();
+          return false;
+        });
+      });
     });
 
     page++; // Increment page number for the next fetch
